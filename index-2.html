@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Pay ₹30 | ARSHAD ASIF SHEIKH</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:28px 16px;display:grid;place-items:center;background:linear-gradient(145deg,#101827,#172d3d);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#17202b}
+.card{width:min(100%,390px);background:#fff;border-radius:26px;padding:28px 22px;text-align:center;box-shadow:0 22px 70px #0005}
+h1{font-size:22px;margin:4px 0 6px}.sub{color:#697586;font-size:13px;letter-spacing:.12em;font-weight:700}
+.amount{font-size:48px;font-weight:800;color:#07834d;margin:14px 0 2px}
+#qrcode{width:220px;height:220px;margin:18px auto 12px;display:grid;place-items:center}
+#qrcode img,#qrcode canvas{max-width:100%;height:auto!important}
+.upi{font-size:14px;color:#475467;margin:12px 0 20px;overflow-wrap:anywhere}
+a.pay{display:block;background:#087d4b;color:white;text-decoration:none;font-weight:800;padding:16px;border-radius:13px}
+.note{font-size:12px;line-height:1.5;color:#697586;margin:16px 0 0}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="sub">SECURE UPI PAYMENT</div>
+  <h1>ARSHAD ASIF SHEIKH</h1>
+  <div class="amount">₹30</div>
+  <div class="sub">FIXED PAYMENT AMOUNT</div>
+  <div id="qrcode" aria-label="QR code for UPI payment"></div>
+  <div class="upi">UPI ID: <strong>9665619483@ybl</strong></div>
+  <a class="pay" href="upi://pay?pa=9665619483%40ybl&amp;pn=ARSHAD%20ASIF%20SHEIKH&amp;am=30.00&amp;cu=INR&amp;tn=Payment">PAY ₹30 NOW</a>
+  <p class="note">Scan the QR code or tap Pay Now. Check the recipient name and amount in your UPI app before approving. Payment is completed only after you enter your UPI PIN.</p>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const upi = "upi://pay?pa=9665619483%40ybl&pn=ARSHAD%20ASIF%20SHEIKH&am=30.00&cu=INR&tn=Payment";
+if (window.QRCode) {
+  new QRCode(document.getElementById("qrcode"), {
+    text: upi, width: 220, height: 220,
+    colorDark: "#101827", colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.M
+  });
+} else {
+  document.getElementById("qrcode").textContent = "QR could not load. Use the Pay ₹30 button.";
+}
+</script>
+</body>
+</html>
