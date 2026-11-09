@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <title>Pay ARSHAD ASIF SHEIKH</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin:0; min-height:100vh; padding:24px 14px; display:flex; align-items:center; justify-content:center; font-family:Arial,Helvetica,sans-serif; background:linear-gradient(145deg,#0b1220,#172b45); color:#172033; }
+    .card { width:100%; max-width:420px; background:#fff; border-radius:24px; padding:26px 22px; text-align:center; box-shadow:0 18px 55px rgba(0,0,0,.28); }
+    .mark { width:58px; height:58px; margin:0 auto 12px; border-radius:18px; display:grid; place-items:center; color:white; font-size:27px; background:linear-gradient(135deg,#176b50,#20a477); }
+    h1 { font-size:21px; margin:8px 0 5px; }
+    .sub { color:#6b7280; font-size:13px; margin:0 0 22px; }
+    .amount-label { display:block; text-align:left; font-weight:700; font-size:14px; margin-bottom:8px; }
+    .amount-wrap { display:flex; align-items:center; gap:8px; padding:12px 15px; border:2px solid #dce5e1; border-radius:14px; background:#fbfdfc; }
+    .rupee { font-size:27px; font-weight:700; color:#16845f; }
+    input { width:100%; border:0; outline:0; background:transparent; font-size:30px; font-weight:700; color:#16845f; }
+    .hint { text-align:left; color:#737b88; font-size:12px; margin:7px 0 13px; }
+    .quick { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+    .quick button { flex:1; min-width:55px; border:1px solid #d6e4dd; border-radius:10px; padding:9px 7px; background:#f3faf6; color:#176b50; font-weight:700; }
+    #qrbox { min-height:208px; display:flex; justify-content:center; align-items:center; padding:12px; border:1px dashed #cbd5d1; border-radius:16px; background:#fff; }
+    #qrcode img, #qrcode canvas { display:block; margin:auto; max-width:100%; }
+    .qrnote { font-size:12px; color:#6b7280; margin:10px 0 16px; }
+    .pay { display:block; width:100%; border:0; border-radius:13px; background:#16845f; color:#fff; padding:15px; font-size:16px; font-weight:700; text-decoration:none; cursor:pointer; }
+    .upi { margin-top:15px; font-size:12px; color:#5d6673; overflow-wrap:anywhere; }
+    .warning { margin-top:15px; padding:11px; border-radius:12px; background:#fff8e8; color:#78591a; font-size:11px; line-height:1.5; }
+    .error { display:none; text-align:left; color:#b42318; font-size:12px; margin-top:7px; }
+    footer { margin-top:17px; color:#9aa1aa; font-size:10px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="mark">₹</div>
+    <h1>ARSHAD ASIF SHEIKH</h1>
+    <p class="sub">UPI Payment</p>
+    <label class="amount-label" for="amount">Enter amount (₹1–₹500)</label>
+    <div class="amount-wrap">
+      <span class="rupee">₹</span>
+      <input id="amount" type="number" inputmode="numeric" min="1" max="500" step="1" value="30" aria-label="Payment amount">
+    </div>
+    <div class="hint">Choose any whole amount from ₹1 to ₹500.</div>
+    <div class="quick">
+      <button type="button" data-amount="10">₹10</button>
+      <button type="button" data-amount="20">₹20</button>
+      <button type="button" data-amount="50">₹50</button>
+      <button type="button" data-amount="100">₹100</button>
+      <button type="button" data-amount="500">₹500</button>
+    </div>
+    <div id="error" class="error">Please enter a whole amount between ₹1 and ₹500.</div>
+    <div id="qrbox"><div id="qrcode"></div></div>
+    <p class="qrnote">Scan this QR using any UPI app</p>
+    <a id="pay" class="pay" href="upi://pay?pa=9665619483%40ybl&amp;pn=ARSHAD%20ASIF%20SHEIKH&amp;am=30.00&amp;cu=INR&amp;tn=Payment">Pay ₹30 with UPI</a>
+    <div class="upi">UPI ID: <strong>9665619483@ybl</strong></div>
+    <div class="warning">Check the name and amount in your UPI app before paying. Payment is completed only after you approve it with your UPI PIN. This page does not automatically verify payments.</div>
+    <footer>Powered by UPI · Amount limit ₹1–₹500</footer>
+  </main>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    const upiId = "9665619483@ybl";
+    const payeeName = "ARSHAD ASIF SHEIKH";
+    const amountInput = document.getElementById("amount");
+    const qr = document.getElementById("qrcode");
+    const payButton = document.getElementById("pay");
+    const error = document.getElementById("error");
+    let qrCode;
+
+    function updatePayment() {
+      const raw = amountInput.value.trim();
+      const amount = Number(raw);
+      const valid = raw !== "" && Number.isInteger(amount) && amount >= 1 && amount <= 500;
+
+      if (!valid) {
+        error.style.display = "block";
+        payButton.removeAttribute("href");
+        payButton.textContent = "Enter a valid amount";
+        qr.innerHTML = "<span style='font-size:13px;color:#777'>Enter an amount from ₹1 to ₹500</span>";
+        return;
+      }
+
+      error.style.display = "none";
+      const uri = "upi://pay?pa=" + encodeURIComponent(upiId) +
+        "&pn=" + encodeURIComponent(payeeName) +
+        "&am=" + amount.toFixed(2) + "&cu=INR&tn=" + encodeURIComponent("Payment");
+      payButton.href = uri;
+      payButton.textContent = "Pay ₹" + amount + " with UPI";
+      qr.innerHTML = "";
+      if (window.QRCode) {
+        qrCode = new QRCode(qr, {
+          text: uri, width:190, height:190, colorDark:"#14251f",
+          colorLight:"#ffffff", correctLevel:QRCode.CorrectLevel.M
+        });
+      } else {
+        qr.innerHTML = "<span style='font-size:13px;color:#777'>QR could not load. Check your internet connection and refresh.</span>";
+      }
+    }
+
+    amountInput.addEventListener("input", updatePayment);
+    document.querySelectorAll("[data-amount]").forEach(button => {
+      button.addEventListener("click", () => {
+        amountInput.value = button.dataset.amount;
+        updatePayment();
+      });
+    });
+    updatePayment();
+  </script>
+</body>
+</html>
